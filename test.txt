@@ -1,0 +1,1 @@
+--properties {[1, 'Edificio Mateus', 'Residencial'], [2, 'Edificio João', 'Comercial'], [3, 'Edificio Pedro', 'Industrial'], 
