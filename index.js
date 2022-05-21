@@ -17,7 +17,7 @@ app.listen(3000, () => {
     db.serialize(function() {
         console.log("entrou no serialize")
 
-        selectUsers()
+        // selectUsers()
         selectProperties()
     });
     
@@ -25,25 +25,23 @@ app.listen(3000, () => {
 
 })
 
-function selectUsers(){
-    db.each("select ('[' || group_concat(json_object('id', id, 'name', name)) || ']') as 'row' from (select * from user)", function(err, row) {
-        if (err) return console.log(err.message)    
+// function selectUsers(){
+//     db.each("select ('[' || group_concat(json_object('id', id, 'name', name)) || ']') as 'row' from (select * from user)", function(err, row) {
+//         if (err) return console.log(err.message)    
 
-        fs.writeFile('./public/users.json', String(row.row), err => {
-            if (err) {
-              console.error(err)
-              return
-            }
-            console.log("escreveu linha")
-        })
-    })
-} 
+//         fs.writeFile('./public/users.json', String(row.row), err => {
+//             if (err) {
+//               console.error(err)
+//               return
+//             }
+//             console.log("escreveu linha")
+//         })
+//     })
+// } 
 
 function selectProperties(){
-        db.each(("select ('[' || group_concat(json_object('id', id, 'name', name, 'type', type)) || ']') as 'row' from (select * from property where id_user = ").concat("1", ")"), function(err, row) {
+        db.each("select ('[' || group_concat(json_object('id', id, 'name', name, 'type', type)) || ']') as 'row' from (select * from property where id_user = 1)", function(err, row) {
             if (err) return console.log(err.message)    
-
-            // console.log(user.selectedUser)
             fs.writeFile('./public/properties.json', String(row.row), err => {
                 if (err) {
                   console.error(err)
