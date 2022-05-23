@@ -2,7 +2,11 @@ import properties from './properties.json' assert {type:'json'}
 // import users from './users.json' assert {type:'json'}
 
 
-let selectedUser = ""
+let selectedProperty = ""
+let initDate = ""
+let finalDate = ""
+let selectedTypeOfGrouping = ""
+
 window.onload = function() {
 
   // loadUsers()
@@ -14,52 +18,46 @@ window.onload = function() {
 
   loadProperties()
   // console.log(properties);
-
-  // var option = document.createElement("option");
-  // option.text = properties.property1.name;
-  // option.value = properties.property1.id;
-  // console.log(option)
-
-  // var select = document.getElementById("property");
-  // console.log(select)
-  // select.appendChild(option);
-  // console.log(select)
 }
 
 document.getElementById('property').addEventListener('change', function(){
-  selectedUser = this.value
-  console.log(selectedUser)
+  selectedProperty = this.value
+  console.log(selectedProperty)
 })
-// exports.selectedUser = selectedUser
 
 
-// function WriteToFile(data) {
-//   fs.writeFile('./public/selectedUser.txt', String(data), err => {
-//     if (err) {
-//       console.error(err)
-//       return
-//     }
-//     console.log("escreveu selected user")
-//   })
-// }
+
+document.getElementById('typeOfGroup').addEventListener('change', function(){
+  selectedTypeOfGrouping = this.value
+  console.log(selectedTypeOfGrouping)
+});
+
+document.getElementById('fromDate').addEventListener('change', function(){
+  initDate = this.value
+  console.log('fromDate changed to ' + initDate)
+  // var toDate = document.getElementById("toDate");
+  document.getElementById("toDate").min = initDate
+})
 
 
-// var myproperties = JSON.parse(properties);
+document.getElementById('toDate').addEventListener('change', function(){
+  finalDate = this.value
+  console.log('toDate changed to ' + finalDate)
+  // var fromDate = document.getElementById("fromDate");
+  document.getElementById("fromDate").max = finalDate
+})
+
+document.getElementById('showGraph').addEventListener('click', function() {
+  if (selectedProperty == "") {
+    alert('cannot show the graph without selecting the property')
+  } 
+  
+  console.log('will show the graph')  
+});
+
+
 console.log(properties)
 
-// function loadUsers(){
-//   console.log('entrou no load users')
-  
-//   for (let i = 0; i < users.length; i++) {
-//     var option = document.createElement("option");
-//     option.text = users[i].name;
-//     option.value = users[i].id;
-//     console.log(option.text)
-    
-//     var select = document.getElementById("user");
-//     select.appendChild(option);
-//   }
-// }
 
 function loadProperties(){
   for (let i = 0; i < properties.length; i++) {

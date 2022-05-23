@@ -71,39 +71,40 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <label class="input-group-text" for="property" >select property</label>
+                          <label class="input-group-text" for="property">Property</label>
                         </div>
                         <select class="custom-select" id="property">
-                          <option value="" disabled selected>Choose...</option>
+                          <option value="" disabled selected>Choose a property</option>
                         </select>
                     </div>
 
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">select date</label>
+                        <div>
+                            <label for="fromDate">From date</label>
+                            <input id="fromDate" type="date"/>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect01">
-                          <option value="" disabled selected>Choose...</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
+
+                        <div>
+                            <label for="toDate">To date</label>
+                            <input id="toDate" type="date"/>
+                        </div>
+
                     </div>
 
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">select type</label>
+                          <label class="input-group-text" for="typeOfGroup">Type of grouping</label>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect01">
-                          <option value="" disabled selected>Choose...</option>
+                        <select class="custom-select" id="typeOfGroup">
+                          <option value="" disabled selected>Choose a grouping</option>
                           <option value="1">rop</option>
                           <option value="2">dy</option>
                           <option value="3">hr</option>
                         </select>
                     </div>
 
-                    <button class="btn" id="goto-about">show</button>
+                    <button class="btn" id="showGraph">Show Graph</button>
                 </div>
             </div>
         </div>
