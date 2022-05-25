@@ -21,23 +21,8 @@ app.listen(3000, () => {
         selectProperties()
     });
     
-    // db.close();
-
 })
 
-// function selectUsers(){
-//     db.each("select ('[' || group_concat(json_object('id', id, 'name', name)) || ']') as 'row' from (select * from user)", function(err, row) {
-//         if (err) return console.log(err.message)    
-
-//         fs.writeFile('./public/users.json', String(row.row), err => {
-//             if (err) {
-//               console.error(err)
-//               return
-//             }
-//             console.log("escreveu linha")
-//         })
-//     })
-// } 
 
 function selectProperties(){
         db.each("select ('[' || group_concat(json_object('id', id, 'name', name, 'type', type)) || ']') as 'row' from (select * from property where id_user = 1)", function(err, row) {
@@ -54,8 +39,8 @@ function selectProperties(){
 
 
 app.get('/', function(req, res){
-    console.log("to no get")
     res.sendFile(path.join(__dirname + '/public/index.html'));
     res.send()
 })
 
+export {sqlite3}
