@@ -1,0 +1,85 @@
+<%- include("header") -%>
+
+     <!--Header-->
+     <header class="container-fluid" id="header">
+        <div class="row row-menu">
+            <div class="col-12" id="menu-area">
+
+                <nav class="nav nav-pills flex-column flex-sm-row active" id="links-menu">
+                    <a class="flex-sm-fill nav-link" id="name" href="index.html">MyConsumption.io</a>
+                    <a class="flex-sm-fill nav-link options" href="index.html">home</a>
+                    <a class="flex-sm-fill nav-link options" href="pages/my_profile.html">my profile</a>
+                    <a class="flex-sm-fill nav-link options" href="pages/about.html">about</a>
+                
+                    <div class="sandwich-menu">
+                        <div class="bar1"></div>
+                        -<div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!--About-->
+    <div class="container">
+        <div class="row" id="about">
+            <div class="col-lg-6 col-md-6 col-sm-12 blocks-about">
+                <div id="aboutme-text">
+                    <h3 class="titles">my consumption</h3>
+                    <p>show the graph of consumption</p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 blocks-about">
+
+
+                <form action="/" method="post">
+
+
+                
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="property">Property</label>
+                    </div>
+                    <select class="custom-select" name="property" id="property" action="/" method="POST">
+                      <option value="" disabled selected>Choose a property</option>
+                        <% for (var i = 0; i < properties.length; i++) { %> 
+                            <option value="<%=properties[i].id%>">
+                                <%= properties[i].name %>
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div>
+                        <label for="fromDate">From date</label>
+                        <input id="fromDate" type="date"/>
+                    </div>
+                    <div>
+                        <label for="toDate">To date</label>
+                        <input id="toDate" type="date"/>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="typeOfGroup">Type of grouping</label>
+                    </div>
+                    <select class="custom-select" id="typeOfGroup" name="typeOfGroup">
+                      <option value="" disabled selected>Choose a grouping</option>
+                      <option value="1">rop</option>
+                      <option value="2">dy</option>
+                      <option value="3">hr</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn" id="showGraph">Show Graph</button>
+
+            </form>
+            </div>
+        </div>
+    </div>
+
+<%- include("footer") -%>
+ 

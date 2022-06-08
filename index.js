@@ -3,94 +3,83 @@ const express = require('express');
 const app = express()
 const path = require('path');
 
-
-var jsdom = require('jsdom');
+const jsdom = require('jsdom');
 $ = require('jquery')(new jsdom.JSDOM().window);
 
+const bodyParser = require('body-parser');
+
 app.set("view engine", "ejs")
-app.set('views', path.join(__dirname, '/views'))
+app.set('views', path.join(__dirname, 'views'));
 
-let selectedProperty = ""
-let initDate = ""
-let finalDate = ""
-let selectedTypeOfGrouping = ""
-
-let properties = []
-
-const sqlite3 = require('sqlite3')
-var db = new sqlite3.Database(__dirname + '/public/db/iot2.db');
+app.use('./views', express.static(path.join(__dirname, './views')))    
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
+
+
+let properties = []
+
+const sqlite3 = require('sqlite3');
+var db = new sqlite3.Database(__dirname + '/public/db/iot2.db');
 
 app.listen(3000, () => {
     console.log("serv rodadando")
     
     db.serialize(function() {
-        console.log("entrou no serialize")
         selectProperties()
     });
-
-    $(function (){
-       console.log("oi")
-    })
-
-
-    $('#property').on('change', function(){
-        selectedProperty = this.value
-        console.log(selectedProperty)
-    })
-
-    $('#typeOfGroup').on('change', function(){
-        selectedTypeOfGrouping = this.value 
-        console.log(selectedTypeOfGrouping)
-    })
-
-    $('#fromDate').on('change', function(){
-        initDate = this.value
-        console.log('fromDate changed to ' + initDate)
-        $('#toDate').min = initDate
-    })
-
-
-    $('#toDate').on('change', function(){
-        finalDate = this.value
-        console.log('toDate changed to ' + finalDate)
-        // var fromDate = document.getElementById("fromDate");
-        $('#fromDate').max = finalDate
-    })
-
-    $('#showGraph').on('click', function() {
-        if (selectedProperty == "" || (initDate == "" && finalDate == "") || selectedTypeOfGrouping == "") {
-            alert('cannot show the graph without selecting the property')
-        } 
-        
-        console.log('will show the graph') 
-    });
-
 })
+
+app.get("/", function(req, res){
+    res.render(path.join(__dirname + '/views/main'), {
+        properties: properties
+    })
+})
+
+app.post('/', function(req, res) {
+    console.log(req.body.property)
+    // console.log(req.query)
+    res.render(path.join(__dirname + '/views/graph'), {
+        properties: properties
+    })
+    res.status(200).end()
+    // console.log("oiSsssamdnsdkjdnasnd") 
+})
+
+// console.log("property: " + property);
+// var initDate = req.body.initDate;
+// console.log("initDate: " + initDate);
+// var finalDate = req.body.fromDate;
+// var property = req.body.property;
+// console.log("finalDate: " + finalDate);
+// var grouping = req.body.typeOfGroup;
+// console.log("grouping: " + grouping);
+
+// res.end(); // end the response
+
+
+// app.get("/graph", function(req, res){
+//     var property = req.body.property;
+//     // console.log("property: " + property);
+//     var initDate = req.body.initDate;
+//     // console.log("initDate: " + initDate);
+//     var finalDate = req.body.fromDate;
+//     // console.log("finalDate: " + finalDate);
+//     var grouping = req.body.typeOfGroup;
+//     // console.log("grouping: " + grouping);
+
+//     res.send(property + ",")
+    
+// })
 
 function selectProperties(){
     db.each("select property.id as 'id', property.name as 'name', property.type as 'type' from property where id_user = 1", function(err, row) {
         if (err) return console.log(err.message)    
 
         let data = {id: row.id, name: row.name, type: row.type}
-        console.log(data)
         properties.push(data)
     })
 }
-
-//view n tá carregando
-
-app.get('/', function(req, res){
-
-    res.render(path.resolve(__dirname + '/views/graph', { 
-        properties: properties
-    }))
-    // res.sendFile(path.join(__dirname + '/public/index.html'));
-    // res.send()
-})
-
-app.post('/', function(req, res) {
-    res.redirect("/")
-})
