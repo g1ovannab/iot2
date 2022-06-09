@@ -17,4 +17,4 @@ O que sobra pra fazer (não que seja voce que tenha que fazer, eu vou te ajudar)
 Eu não sei que horas vc vai mexer mas é isso
 
 ### A e deleta o node_modules, pq essa pasta é muito pesada pra ficar baixando 
- - é com o package.json é só dar npm install que pega todas as dependencias
+ - Com o package.json é só dar npm install que pega todas as dependencias
