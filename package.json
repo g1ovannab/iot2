@@ -1,7 +1,7 @@
 {
   "name": "myconsumption",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bueno bom dia,boa tarde ou boa noite Yago aki.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -20,10 +20,12 @@
     "jsdom": "^19.0.0",
     "litepicker": "^2.0.12",
     "morgan": "^1.10.0",
+    "node-cron": "^3.0.1",
     "node-fetch": "^2.6.7",
     "nodemon": "^2.0.16",
     "path": "^0.12.7",
     "request": "^2.88.2",
+    "save": "^2.5.0",
     "sqlite": "^4.1.1",
     "sqlite3": "^5.0.8",
     "webpack": "^5.72.1",

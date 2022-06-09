@@ -21,7 +21,8 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 
-
+createTable();
+insertTable();
 /*
 *Bueno bom dia,boa tarde ou boa noite Yago aki.
 *
