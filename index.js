@@ -22,8 +22,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 
 
-
-
 /*
 *Bueno bom dia,boa tarde ou boa noite Yago aki.
 *
@@ -41,11 +39,12 @@ app.use(express.static(path.join(__dirname, 'views')));
 * Eu não sei que horas vc vai mexer mas é isso
 */
 let properties = []
-
+let property, initDate, finalDate, grouping
 
 
 const sqlite3 = require('sqlite3');
-var db = new sqlite3.Database(__dirname + '/public/db/iot2.db');
+const { getEnvironmentData } = require('worker_threads');
+var db = new sqlite3.Database(__dirname + '/public/db/database.db');
 
 app.listen(3000, () => {
     console.log('Server rodando em: http://localhost:3000')
@@ -62,8 +61,16 @@ app.get("/", function(req, res){
 })
 
 app.post('/', function(req, res) {
-    console.log(req.body.property)
-    // console.log(req.query)
+    // em vez de renderizar, eu só adiciono o gráfico
+    property = req.body.property
+    initDate = req.body.fromDate
+    finalDate = req.body.toDate
+    grouping = req.body.typeOfGrouping
+
+    db.serialize(function() {
+        getDataForGraph(property, initDate, finalDate, grouping)
+    });
+
     res.render(path.join(__dirname + '/views/graph'), {
         properties: properties
     })
@@ -71,37 +78,29 @@ app.post('/', function(req, res) {
     // console.log("oiSsssamdnsdkjdnasnd") 
 })
 
-// console.log("property: " + property);
-// var initDate = req.body.initDate;
-// console.log("initDate: " + initDate);
-// var finalDate = req.body.fromDate;
-// var property = req.body.property;
-// console.log("finalDate: " + finalDate);
-// var grouping = req.body.typeOfGroup;
-// console.log("grouping: " + grouping);
-
-// res.end(); // end the response
-
-
-// app.get("/graph", function(req, res){
-//     var property = req.body.property;
-//     // console.log("property: " + property);
-//     var initDate = req.body.initDate;
-//     // console.log("initDate: " + initDate);
-//     var finalDate = req.body.fromDate;
-//     // console.log("finalDate: " + finalDate);
-//     var grouping = req.body.typeOfGroup;
-//     // console.log("grouping: " + grouping);
-
-//     res.send(property + ",")
-    
-// })
-
 function selectProperties(){
-    db.each("select property.id as 'id', property.name as 'name', property.type as 'type' from property where id_user = 1", function(err, row) {
+    db.each("select property.id as 'id', property.name as 'name' from property", function(err, row) {
         if (err) return console.log(err.message)    
 
-        let data = {id: row.id, name: row.name, type: row.type}
+        let data = {id: row.id, name: row.name}
+        properties.push(data)
+    })
+}
+
+function getDataForGraph(property, initDate, finalDate, grouping){
+    if (grouping == '1'){
+        // rop (todos os dados possíveis)
+    } else if (grouping == '2') { 
+        // dy (todos os dados DOS DIAS somados
+    } else if (grouping == '3') {
+        // hr (?)
+    }
+
+
+    db.each("select property.id as 'id', property.name as 'name' from property", function(err, row) {
+        if (err) return console.log(err.message)    
+
+        let data = {id: row.id, name: row.name}
         properties.push(data)
     })
 }

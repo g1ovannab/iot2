@@ -13,13 +13,13 @@ document.getElementById('typeOfGroup').addEventListener('change', function(){
 
 document.getElementById('fromDate').addEventListener('change', function(){
   initDate = this.value
-  console.log(this.value)
+  console.log(initDate)
   document.getElementById("toDate").min = initDate
 });
 
 document.getElementById('toDate').addEventListener('change', function(){
   finalDate = this.value
-  console.log(this.value)
+  console.log(finalDate)
   document.getElementById("fromDate").max = finalDate
 });
 

@@ -9,10 +9,14 @@ async function createTable(){
     });
 }
 
+const timestamp = /(?<date>[\d\-]*)T(?<stamp>[\d\:]*).(?<trash>[\d]*)Z/
+
+
   async function insertTable(){
     var db;
 var consumo;
 var tempo;
+var date;
 var today = new Date();
         var endTime = new Date();
         var startTime = new Date();
@@ -26,10 +30,6 @@ var today = new Date();
         var time = (today.getHours() -1) + ":" + today.getMinutes() + ":" + today.getSeconds();
         var dateTime = date + ' ' + time;
         startTime = dateTime;
-
-
-
-
 
         console.log(startTime)
         console.log(endTime)
@@ -56,14 +56,21 @@ fetch(url, {
         db = json
         for(var i = 0; i < db["result"].length; i++){
             tempo = db["result"][i].time
+            
+            var match = tempo.match(timestamp)
+            let singleDate = match.groups.date
+            let singleStamp = match.groups.stamp
+
+            tempo = singleDate + ' ' + singleStamp  // 2022-06-05 22:30:00
+
+            date = singleDate // 2022-06-05
+
             consumo = db["result"][i].value
             inserT(tempo,consumo)
         }
         
     })
    .catch(err => console.log(err));
-
-
 }
 
 
