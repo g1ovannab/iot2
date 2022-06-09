@@ -15,3 +15,5 @@ O que sobra pra fazer (não que seja voce que tenha que fazer, eu vou te ajudar)
  - Fazer o request dos dados para o site no arquivo database.db -> IOT
 
 Eu não sei que horas vc vai mexer mas é isso
+
+### A e deleta o node_modules, pq essa pasta é muito pesada pra ficar baixando 
