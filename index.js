@@ -1,10 +1,6 @@
 const express = require('express');
-// const { append } = require('express/lib/response');
 const app = express()
 const path = require('path');
-const jsdom = require('jsdom');
-$ = require('jquery')(new jsdom.JSDOM().window);
-//const { createTable, insertPessoa } =  require('./public/src/Controller/Pessoa');
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
 
@@ -23,27 +19,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 
 cron.schedule('* 2-22 * * *', () => {
-    createTable();
-    insertTable();
+    // createTable();
+    // insertTable();
 });
-/*
-*Bueno bom dia,boa tarde ou boa noite Yago aki.
-*
-*Essas funções aqui servem para incicializar a tabela que vem do BROKER
-*
-*createTable(); -> Cria um arquivo database.db que vai ser o banco de dados oficial (precisa de um tratamento)
-*insertTable(); -> Insere na tabela IOT os dados que veem do broker no intervalo de:
-*                                                       (data atual-1hora) até a (data atual) {se tiverem dados}
-*
-*O que sobra pra fazer (não que seja voce que tenha que fazer, eu vou te ajudar):
-*                       - Fazer uma rotina para pegar os dados por hora
-*                       - Setar para rodar o create table 1 vez
-*                       - Fazer o request dos dados para o site no arquivo database.db -> IOT
-*
-* Eu não sei que horas vc vai mexer mas é isso
-*/
+
 let properties = []
-let property, initDate, finalDate, grouping
+let graph = []
+let grouping = ""
 
 
 const sqlite3 = require('sqlite3');
@@ -59,27 +41,23 @@ app.listen(3000, () => {
 })
 
 app.get("/", function(req, res){
+
     res.render(path.join(__dirname + '/views/main'), {
+        graph: JSON.stringify(graph),
+        grouping: grouping,
         properties: properties
     })
 })
 
 app.post('/', function(req, res) {
-    // em vez de renderizar, eu só adiciono o gráfico
-    property = req.body.property
-    initDate = req.body.fromDate
-    finalDate = req.body.toDate
-    grouping = req.body.typeOfGrouping
-
+    let newGraph = []
     db.serialize(function() {
-        getDataForGraph(property, initDate, finalDate, grouping)
+        newGraph = getDataForGraph(req.body.property, req.body.fromDate, req.body.toDate, req.body.typeOfGroup)
     });
 
-    res.render(path.join(__dirname + '/views/graph'), {
-        properties: properties
-    })
-    res.status(200).end()
-    // console.log("oiSsssamdnsdkjdnasnd") 
+    graph = newGraph
+    grouping = req.body.typeOfGroup
+    res.redirect('/')
 })
 
 function selectProperties(){
@@ -92,19 +70,28 @@ function selectProperties(){
 }
 
 function getDataForGraph(property, initDate, finalDate, grouping){
+    let sameDay = (initDate == finalDate)
+    let newGraph = []
+
+    let query = ""
+    
     if (grouping == '1'){
-        // rop (todos os dados possíveis)
+        query = "select c.timestamp as 'ts', c.gasto as 'gasto' from consumption as c where id_property = " + property + " and c.dateday "
     } else if (grouping == '2') { 
-        // dy (todos os dados DOS DIAS somados
-    } else if (grouping == '3') {
-        // hr (?)
+        query = "select c.dateday as 'ts', sum(c.gasto) as 'gasto' from consumption as c where id_property = " + property + " and c.dateday "
     }
 
+    if (sameDay) { query += " = '" + initDate + "' "}
+    else { query += " >= '" + initDate + "' and c.dateday <= '" + finalDate + "'"}
 
-    db.each("select property.id as 'id', property.name as 'name' from property", function(err, row) {
+    if (grouping == '2') { query += " group by c.dateday" }
+
+    db.each(query, function(err, row) {
         if (err) return console.log(err.message)    
 
-        let data = {id: row.id, name: row.name}
-        properties.push(data)
+        let data = {timestamp: row.ts, gasto: row.gasto}
+        newGraph.push(data)
     })
+
+    return newGraph
 }

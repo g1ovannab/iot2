@@ -6,80 +6,148 @@
             <div class="col-12" id="menu-area">
 
                 <nav class="nav nav-pills flex-column flex-sm-row active" id="links-menu">
-                    <a class="flex-sm-fill nav-link" id="name" href="index.html">MyConsumption.io</a>
-                    <a class="flex-sm-fill nav-link options" href="index.html">home</a>
-                    <a class="flex-sm-fill nav-link options" href="pages/my_profile.html">my profile</a>
-                    <a class="flex-sm-fill nav-link options" href="pages/about.html">about</a>
-                
-                    <div class="sandwich-menu">
-                        <div class="bar1"></div>
-                        -<div class="bar2"></div>
-                        <div class="bar3"></div>
-                    </div>
+                    <a class="flex-sm-fill nav-link" id="name">MyConsumption.io</a>
+                    <a class="flex-sm-fill nav-link options">my profile</a>
+                    <a class="flex-sm-fill nav-link options">about us</a>
                 </nav>
             </div>
         </div>
     </header>
 
     <!--About-->
-    <div class="container">
+    <div class="container-fluid">
         <div class="row" id="about">
-            <div class="col-lg-6 col-md-6 col-sm-12 blocks-about">
-                <div id="aboutme-text">
-                    <h3 class="titles">my consumption</h3>
-                    <p>show the graph of consumption</p>
-                </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 blocks-about" id="chart">
+                <canvas id="myChart"></canvas>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 blocks-about">
+            <div class="col-lg-6 col-md-6 col-sm-12 blocks-about" id="options">
 
 
-                <form action="/" method="post">
+                <form action="/" method="post" id="infos">
+                    
+                    <div class="input-group mb-4">
+                        <div class="col-lg-4 col-md-6">
+                            <label class="input-group-text" for="property" id="lbl">Property</label>
+                        </div>
 
+                        <div class="col-lg-8 col-md-6">
+                            <select class="input-group-text custom-select mr-sm-2 other" name="property" id="property">
+                                <option option value="" disabled selected>Choose a property</option>
+                                <% for (var i = 0; i < properties.length; i++) { %> 
+                                    <option value="<%=properties[i].id%>">
+                                        <%= properties[i].name %>
+                                    </option>
+                                <% } %>
+                            </select>
 
-                
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <label class="input-group-text" for="property">Property</label>
+                        </div>
                     </div>
-                    <select class="custom-select" name="property" id="property" action="/" method="POST">
-                      <option value="" disabled selected>Choose a property</option>
-                        <% for (var i = 0; i < properties.length; i++) { %> 
-                            <option value="<%=properties[i].id%>">
-                                <%= properties[i].name %>
-                            </option>
-                        <% } %>
-                    </select>
-                </div>
 
-                <div class="input-group mb-3">
-                    <div>
-                        <label for="fromDate">From date</label>
-                        <input id="fromDate" type="date"/>
+                    <div class="input-group mb-4">
+                        <div class="col-lg-4 col-md-6">
+                            <label class="input-group-text" for="fromDate" id="lbl">From date</label>
+                        </div>
+                        <div class="col-lg-8 col-md-6">
+                            <input class="input-group-text other" id="fromDate" name="fromDate" type="date"/>
+                        </div>
                     </div>
-                    <div>
-                        <label for="toDate">To date</label>
-                        <input id="toDate" type="date"/>
+
+                    <div class="input-group mb-4">
+                        <div class="col-lg-4 col-md-6">
+                            <label class="input-group-text" for="toDate" id="lbl">To date</label>
+                        </div>
+                        <div class="col-lg-8 col-md-6">
+                            <input class="input-group-text other" id="toDate" name="toDate" type="date"/>
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <label class="input-group-text" for="typeOfGroup">Type of grouping</label>
+                    <div class="input-group mb-4">
+                        <div class="col-lg-4 col-md-6">
+                            <label class="input-group-text" for="typeOfGroup" id="lbl">Type of grouping</label>
+                        </div>
+
+                        <div class="col-lg-8 col-md-6">
+                            <select class="input-group-text custom-select other" id="typeOfGroup" name="typeOfGroup">
+                                <option value="" disabled selected>Choose a grouping</option>
+                                <option value="1">All records</option>
+                                <option value="2">Daily</option>
+                            </select>
+                        </div>
                     </div>
-                    <select class="custom-select" id="typeOfGroup" name="typeOfGroup">
-                      <option value="" disabled selected>Choose a grouping</option>
-                      <option value="1">rop</option>
-                      <option value="2">dy</option>
-                      <option value="3">hr</option>
-                    </select>
-                </div>
+                    <div class="col-lg-4 col-md-12">
+                        <button type="submit" class="btn" id="showGraph">Show Graph</button>
+                    </div>
 
-                <button type="submit" class="btn" id="showGraph">Show Graph</button>
 
-            </form>
+                </form>
             </div>
         </div>
     </div>
+
+    <script>
+        let graphData = JSON.parse(`<%- graph %>`)
+        let grouping = `<%- grouping %>`
+
+        let labels = getLabels(grouping)
+        let data = getData()
+        
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Consumption of water',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(214, 165, 108, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(163, 180, 122, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                },
+
+            }
+        });
+        
+        function getLabels(grouping){
+            let l = []
+            for (var i = 0; i < graphData.length; i++){
+                let label
+
+                if (grouping == 1) {
+                    label = graphData[i].timestamp
+                    //quero q o label fique com o mesmo do 2
+                    //e os dados mostrem o real
+                } else if (grouping == 2){
+                    let date = new Date(graphData[i].timestamp)
+                    label = date.toLocaleString('en-us', { month: 'short' }) + '-' + date.getUTCDate()
+                }
+                l.push(label)
+            }
+            return l
+        }
+        
+        function getData(){
+            let d = []
+            for (var i = 0; i < graphData.length; i++){
+                d.push(graphData[i].gasto)
+            }
+            return d
+        }
+
+    </script>
 
 <%- include("footer") -%>
  
