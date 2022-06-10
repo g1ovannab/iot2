@@ -6,6 +6,7 @@ const jsdom = require('jsdom');
 $ = require('jquery')(new jsdom.JSDOM().window);
 //const { createTable, insertPessoa } =  require('./public/src/Controller/Pessoa');
 const bodyParser = require('body-parser');
+const cron = require('node-cron');
 
 const {createTable} = require('./public/src/Controller/iotTable')
 const {insertTable} = require('./public/src/Controller/iotTable')
@@ -21,7 +22,10 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 
-
+cron.schedule('* 2-22 * * *', () => {
+    createTable();
+    insertTable();
+});
 /*
 *Bueno bom dia,boa tarde ou boa noite Yago aki.
 *
