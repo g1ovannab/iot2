@@ -8,13 +8,13 @@ async function createTable() {
     });
 }
 
-const timestamp = /(?<date>[\d\-]*)T(?<stamp>[\d\:]*).(?<trash>[\d]*)Z/
+const timestampRegex = /(?<date>[\d\-]*)T(?<stamp>[\d\:]*).(?<trash>[\d]*)Z/
 
 
 async function insertTable() {
     var db;
-    var consumo;
-    var tempo;
+    var consumption;
+    var timestamp;
     var date;
     var today = new Date();
     var endTime = new Date();
@@ -37,11 +37,10 @@ async function insertTable() {
     var key = "6615871e-6222-4e2e-9325-f02e611ff39f";
     var url = "https://api.tago.io/data?variable=valor1&start_date=" + startTime.toString() + "&end_date=" + endTime.toString();
 
-
-    function inserT(tempo, consumo, dateday) {
+    function insertConsumption(timestamp, consumption, dateday) {
         openDb().then(db => {
-            db.run('INSERT INTO IOT (tempo, gasto) VALUES (?,?)', tempo, consumo)
-            db.run('INSERT INTO Consumo (dateday, timestamp,id_property,gasto_real) VALUES (?,?,?,?)', dateday, tempo,1,consumo)
+            db.run('INSERT INTO IOT (tempo, gasto) VALUES (?,?)', tempo, v)
+            db.run('INSERT INTO Consumo (dateday, timestamp, id_property, gasto_real) VALUES (?,?,?,?)', dateday, timestamp,1,consumption)
            // dateday DATE, timestamp DATE,id_property INTEGER, consumo INTEGER
 
         });
@@ -57,27 +56,21 @@ async function insertTable() {
         .then(json => {
             db = json
             for (var i = 0; i < db["result"].length; i++) {
-                tempo = db["result"][i].time
+                timestamp = db["result"][i].time
 
-                var match = tempo.match(timestamp)
+                var match = tempo.match(timestampRegex)
                 let singleDate = match.groups.date
                 let singleStamp = match.groups.stamp
 
-                tempo = singleDate + ' ' + singleStamp  // 2022-06-05 22:30:00
-
+                timestamp = singleDate + ' ' + singleStamp  // 2022-06-05 22:30:00
                 date = singleDate // 2022-06-05
+                consumption = db["result"][i].value // 12
 
-                console.log(singleDate)
-
-                console.log(tempo)
-                
-
-                consumo = db["result"][i].value
-                    inserT(tempo,consumo,date)
+                insertConsumption(timestamp, consumption, date)
             }
 
         })
-        .catch(err => console.log(err));
+    .catch(err => console.log(err));
 }
 
 

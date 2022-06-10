@@ -27,7 +27,6 @@ let properties = []
 let graph = []
 let grouping = ""
 
-
 const sqlite3 = require('sqlite3');
 const { getEnvironmentData } = require('worker_threads');
 var db = new sqlite3.Database(__dirname + '/public/db/database.db');

@@ -16,38 +16,36 @@ body{
 }
 
 
-    /*Header*/
-    #header{
-        width: 100%;
-        height: 70px;
-        background-color: rgba(179, 143, 102, 1);
-    }
-    #menu-area{
-        background-color: rgba(179, 143, 102, 1);
-    }
-    .nav{
-        background-color: rgba(179, 143, 102, -0.2);
-    }
-    #header a{
-        color: #000;
-        height: 70px;
-        line-height: 50px;
-    }
-    .options{
-        font-weight: 400;
-        font-size: 18px;
-        letter-spacing: 0.095em;
-        margin: 0;
-        right: -200px;
-    }
-    
-
-    #links-menu > #name{
-        font-weight: 500;
-        font-size: 24px;
-        letter-spacing: 0.37em;
-        margin-left: 0%;
-    }
+/*Header*/
+#header{
+    width: 100%;
+    height: 70px;
+    background-color: rgba(179, 143, 102, 1);
+}
+#menu-area{
+    background-color: rgba(179, 143, 102, 1);
+}
+.nav{
+    background-color: rgba(179, 143, 102, -0.2);
+}
+#header a{
+    color: #000;
+    height: 70px;
+    line-height: 50px;
+}
+.options{
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 0.095em;
+    margin: 0;
+    right: -200px;
+}
+#links-menu > #name{
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 0.37em;
+    margin-left: 0%;
+}
 
 
 /*All titles will have these properties*/
@@ -57,84 +55,53 @@ body{
     letter-spacing: 0.15em;
 }
 
-    /*About*/
-    #about{
-        padding: 0% 0%;
-        height: 78vh;
-    }
-    .blocks-about{
-        width: 50%;
-        max-height: 100vh;
-        padding: 2%;
-    }
-    
-    #aboutme-text{
-        width: 396px;
-        max-width: 92%;
-        height: 100%;
-        margin: 0 auto;
-        background-color: rgba(154, 194, 219, .70);
-    }
-    #aboutme-text > h3, p{
-        background-color: rgba(154, 194, 219, .0);
-    }
-    #aboutme-text > h3{
-        padding: 15% 0% 7.5%;
-    }
-    #aboutme-text > p{
-        font-weight: 300;
-        font-size: 18px;
-        letter-spacing: 0.095em;
-        padding: 10% 0% 15%;
-        margin: 0;
-    }
-    #aboutme-text > button{
-        font-weight: 500;
-        font-size: 18px;
-        letter-spacing: 0.095em;
-        margin: 9% 0% 0%;
-        background-color: rgb(210, 229, 255);
-    }
-    #aboutme-text > button:hover{
-        background-color: rgba(204, 240, 255, 0.5);
-        box-shadow: 5px 5px 10px rgba(152, 191, 216);
-
-    }
+/*About*/
+#about{
+    padding: 0% 0%;
+    height: 78vh;
+}
+.blocks-about{
+    width: 50%;
+    max-height: 100vh;
+    padding: 2%;
+}
 
 
-    /*Footer*/
-    #footer{
-        height: 70px;
-        background-color: rgba(179, 143, 102, .2);
-    }
-    #footer-area{
-        background-color: rgba(179, 143, 102, 1);
-    }
-    #footer a{
-        color: #000;
-        height: 70px;
-        line-height: 50px;
-    }
-    #name-footer{
-        font-weight: 500;
-        font-size: 24px;
-        letter-spacing: 0.37em;
-        margin-right: 50px;
-        color: rgb(0, 0, 0);
-        margin-top: 5px;
+/*Footer*/
+#footer{
+    height: 70px;
+    background-color: rgba(179, 143, 102, .2);
+}
+#footer-area{
+    background-color: rgba(179, 143, 102, 1);
+}
+#footer a{
+    color: #000;
+    height: 70px;
+    line-height: 50px;
+}
+#name-footer{
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 0.37em;
+    margin-right: 50px;
+    color: rgb(0, 0, 0);
+    margin-top: 5px;
 
-    }
+}
 
-    #year{
-        position: relative;
-        color: rgb(0, 0, 0);
-        background-color: rgba(179, 143, 102, 1);
-        /* position: absolute; */
-        padding: 0;
-        height: 25px;
-        top: 25px;
-        right: 30px;
-    }
+#year{
+    position: relative;
+    color: rgb(0, 0, 0);
+    background-color: rgba(179, 143, 102, 1);
+    /* position: absolute; */
+    padding: 0;
+    height: 25px;
+    top: 25px;
+    right: 30px;
+}
+
+/* Others*/
 
 #myChart{
     max-width: 100%;
@@ -143,24 +110,19 @@ body{
     margin: 10% 0%;
     background-color: rgba(179, 143, 102, .2);
 }
-
 #chart, #options{
     padding: 3%;
 }
-
 #showGraph{
     background-color:  rgb(167, 199, 221);
 }
-
 #showGraph:hover{
     background-color: rgba(154, 194, 219, .8);
     box-shadow: 5px 5px 10px rgb(135, 174, 197);
 }
-
 #infos {
     padding: 10% 0%;
 }
-
 #lbl {
     background-color: rgba(214, 165, 108, 0.2);
     border-radius: 5px;
@@ -168,7 +130,6 @@ body{
     text-align: center;
     line-height: 150%;
 }
-
 .other {
     background-color: rgba(163, 180, 122, .5) !important;
     margin: 0% 10%;
