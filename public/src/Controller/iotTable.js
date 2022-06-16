@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 async function createTable() {
     openDb().then(db => {
         db.exec('CREATE TABLE IF NOT EXISTS IOT (id INTEGER PRIMARY KEY, tempo DATE, gasto INTEGER)');//dateday DATE, timestamp DATE,id_property INTEGER, consumo INTEGER
-        db.exec('CREATE TABLE IF NOT EXISTS Consumo (dateday DATE , timestamp DATE PRIMARY KEY,id_property INTEGER, gasto_real FLOAT(2))');
     });
 }
 
@@ -30,23 +29,16 @@ async function insertTable() {
     var dateTime = date + ' ' + time;
     startTime = dateTime;
 
-    // console.log(startTime)
-    // console.log(endTime)
-
-
     var key = "6615871e-6222-4e2e-9325-f02e611ff39f";
     var url = "https://api.tago.io/data?variable=valor1&start_date=" + startTime.toString() + "&end_date=" + endTime.toString();
 
     function insertConsumption(timestamp, consumption, dateday) {
         openDb().then(db => {
-            db.run('INSERT INTO IOT (tempo, gasto) VALUES (?,?)', tempo, v)
-            db.run('INSERT INTO Consumo (dateday, timestamp, id_property, gasto_real) VALUES (?,?,?,?)', dateday, timestamp,1,consumption)
-           // dateday DATE, timestamp DATE,id_property INTEGER, consumo INTEGER
-
+            db.run('INSERT INTO consumption (dateday, timestamp, id_property, gasto) VALUES (?,?,?,?)', dateday, timestamp,1,consumption)
         });
     }
 
-    fetch('url', {
+    fetch("https://api.tago.io/data?variable=valor1&start_date=2022-06-15 20:30:00&end_date=2022-06-16 01:00:00", {
         method: 'GET',
 
         headers: {
@@ -58,7 +50,7 @@ async function insertTable() {
             for (var i = 0; i < db["result"].length; i++) {
                 timestamp = db["result"][i].time
 
-                var match = tempo.match(timestampRegex)
+                var match = timestamp.match(timestampRegex)
                 let singleDate = match.groups.date
                 let singleStamp = match.groups.stamp
 

@@ -18,10 +18,13 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 
-cron.schedule('* 2-22 * * *', () => {
-    // createTable();
-    // insertTable();
-});
+// insertTable();
+
+// cron.schedule('* * * * * *', () => {
+//     // createTable();
+//     insertTable();
+//     console.log("oi")
+// });
 
 let properties = []
 let graph = []

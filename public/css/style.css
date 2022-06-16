@@ -20,10 +20,10 @@ body{
 #header{
     width: 100%;
     height: 70px;
-    background-color: rgba(179, 143, 102, 1);
+    background-color: rgba(162, 192, 211, 0.75);
 }
 #menu-area{
-    background-color: rgba(179, 143, 102, 1);
+    background-color: rgba(162, 192, 211, 0.75);
 }
 .nav{
     background-color: rgba(179, 143, 102, -0.2);
@@ -73,7 +73,7 @@ body{
     background-color: rgba(179, 143, 102, .2);
 }
 #footer-area{
-    background-color: rgba(179, 143, 102, 1);
+    background-color: rgba(162, 192, 211, 0.75);
 }
 #footer a{
     color: #000;
@@ -93,7 +93,7 @@ body{
 #year{
     position: relative;
     color: rgb(0, 0, 0);
-    background-color: rgba(179, 143, 102, 1);
+    background-color: rgba(162, 192, 211, .1);
     /* position: absolute; */
     padding: 0;
     height: 25px;
