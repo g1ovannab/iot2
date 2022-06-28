@@ -1,10 +1,11 @@
-# iot2
-Essas funções aqui servem para incicializar a tabela que vem do BROKER
+# Consumo de Água (MyConsumption.io)
 
-- createTable(); -> Cria um arquivo database.db que vai ser o banco de dados oficial (precisa de um tratamento)
-- insertTable(); -> Insere na tabela IOT os dados que veem do broker no intervalo de: (data atual-1hora) até a (data atual) {se tiverem dados}
+- Para rodar o site é necessário: clonar o repositório no seu computador local;
+- Instalar os pacotes npm no seu computador, utilizando o comando `npm i` numa linha de comandos (referenciado no diretório do projeto);
+- Rodar o comando `nodemon index.js` para inicializar o site;
+- Entrar no endereço `http://localhost:3000/` e acessar o site.
 
 
-- Fazer uma rotina para pegar os dados por hora
-- Setar para rodar o create table 1 vez
-- Fazer o request dos dados para o site no arquivo database.db -> IOT
+Além disso, é importante ressaltar que NÃO existem dados para a pripriedade 3 (Edificio Pedro).
+
+Existem dados somente para os Edificios Mateus (dados somente nos dias 15/06 e 16/06), e João (dados somente nos dias 06/06 à 12/06).

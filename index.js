@@ -4,7 +4,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
 
-const {createTable} = require('./public/src/Controller/iotTable')
 const {insertTable} = require('./public/src/Controller/iotTable')
 
 app.set("view engine", "ejs")
@@ -18,13 +17,10 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 
-// insertTable();
 
-// cron.schedule('* * * * * *', () => {
-//     // createTable();
-//     insertTable();
-//     console.log("oi")
-// });
+cron.schedule('* * * * * *', () => {
+    insertTable();
+});
 
 let properties = []
 let graph = []

@@ -38,7 +38,7 @@ async function insertTable() {
         });
     }
 
-    fetch("https://api.tago.io/data?variable=valor1&start_date=2022-06-15 20:30:00&end_date=2022-06-16 01:00:00", {
+    fetch(url, {
         method: 'GET',
 
         headers: {
