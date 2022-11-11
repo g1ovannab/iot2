@@ -19,7 +19,9 @@ app.use(express.static(path.join(__dirname, 'views')));
 
 
 cron.schedule('* * * * * *', () => {
+    console.log("antes de inserir")
     insertTable();
+    console.log("depois de inserir")
 });
 
 let properties = []
@@ -71,21 +73,30 @@ function getDataForGraph(property, initDate, finalDate, grouping){
     let sameDay = (initDate == finalDate)
     let newGraph = []
 
-    let query = ""
+    let query = "select "
     
     if (grouping == '1'){
-        query = "select c.timestamp as 'ts', c.gasto as 'gasto' from consumption as c where id_property = " + property + " and c.dateday "
+        query += "c.timestamp as 'ts', c.gasto as 'gasto' "
     } else if (grouping == '2') { 
-        query = "select c.dateday as 'ts', sum(c.gasto) as 'gasto' from consumption as c where id_property = " + property + " and c.dateday "
+        query += "c.dateday as 'ts', sum(c.gasto) as 'gasto' "
     }
+
+    query += "from consumption as c where id_property = " + property + " and c.dateday "
 
     if (sameDay) { query += " = '" + initDate + "' "}
     else { query += " >= '" + initDate + "' and c.dateday <= '" + finalDate + "'"}
 
     if (grouping == '2') { query += " group by c.dateday" }
 
+    query += "order by c.dateday, c.timestamp"
+
+
+
     db.each(query, function(err, row) {
-        if (err) return console.log(err.message)    
+        if (err) {
+            console.log(err.message)
+            return newGraph
+        }  
 
         let data = {timestamp: row.ts, gasto: row.gasto}
         newGraph.push(data)

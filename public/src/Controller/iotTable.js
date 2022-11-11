@@ -1,12 +1,6 @@
 const { openDb } = require('../configDB.js');
 const fetch = require('node-fetch');
 
-async function createTable() {
-    openDb().then(db => {
-        db.exec('CREATE TABLE IF NOT EXISTS IOT (id INTEGER PRIMARY KEY, tempo DATE, gasto INTEGER)');//dateday DATE, timestamp DATE,id_property INTEGER, consumo INTEGER
-    });
-}
-
 const timestampRegex = /(?<date>[\d\-]*)T(?<stamp>[\d\:]*).(?<trash>[\d]*)Z/
 
 
@@ -25,7 +19,7 @@ async function insertTable() {
     endTime = dateTime;
 
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    var time = (today.getHours() - 1) + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var time = (today.getHours() - 2) + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
     startTime = dateTime;
 
@@ -66,4 +60,4 @@ async function insertTable() {
 }
 
 
-module.exports = { insertTable, createTable }
+module.exports = { insertTable }
